@@ -37,6 +37,8 @@ make -C vendor/cryptsetup-scripts DESTDIR="$destdir" VERSION=2.8.6-2 \
 cp -R void/. "$destdir/"
 install -m 644 vendor/void-runit/rc.conf "$destdir/etc/rc.conf"
 install -m 755 vendor/void-runit/rc.local "$destdir/etc/rc.local"
+install -m 755 vendor/void-runit/rc.shutdown "$destdir/etc/rc.shutdown"
+ln -sf ../rc-shutdown "$destdir/usr/lib/dinit.d/boot.d/rc-shutdown"
 
 # runit-void owned these; dinit's own take their place.
 for command in halt poweroff reboot shutdown; do

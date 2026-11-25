@@ -1,2 +1,6 @@
-# (hole rc-shutdown :tags rc-conf :sev polish) /etc/rc.shutdown never runs; Chimera's shutdown-hook does not know it.
-type = internal
+# runs /etc/rc.shutdown when the system goes down, as runit's stage 3 does
+
+type = scripted
+command = /usr/bin/true
+stop-command = /usr/bin/sh -c "[ ! -x /etc/rc.shutdown ] || exec /etc/rc.shutdown"
+depends-on: local.target

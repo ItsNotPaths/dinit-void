@@ -20,9 +20,8 @@ dinit-void does not build dinit.
 ## Status
 
 Musl is the main target, since Chimera is a musl system; glibc is built too.
-It has not booted yet. The console settings from `rc.conf`, `/etc/rc.shutdown`
-and the daemon services (dbus, elogind, dhcpcd, sshd, wpa_supplicant, acpid)
-are not done.
+It has not booted yet. The daemon services (dbus, elogind, dhcpcd, sshd,
+wpa_supplicant, acpid) are not done.
 
 ## Build
 
@@ -49,7 +48,8 @@ tested procedure.
   `runit-void`, so it has to be removed by force (`xbps-remove -F runit-void`)
   and kept out with `ignorepkg=runit-void` in `/etc/xbps.d/`.
 - Removing runit-void also removes `/etc/rc.conf`, `/etc/rc.local`,
-  `/etc/hostname` and `/etc/locale.conf` if they were never edited.
+  `/etc/rc.shutdown`, `/etc/hostname` and `/etc/locale.conf` if they were
+  never edited.
   dinit-void installs its own copies.
 - Void's packages ship runit services in `/etc/sv`, which dinit does not read.
   Each daemon you want needs a dinit service file, enabled with
