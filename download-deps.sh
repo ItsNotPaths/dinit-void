@@ -6,10 +6,11 @@ cd "$(dirname "$0")"
 
 # vendor/<name>  repo  commit  path in the repo
 pins='
-dinit-chimera  https://github.com/chimera-linux/dinit-chimera  e7e37f55c672d3db513b9a43c5fec4708b0917bf
-sd-tools       https://github.com/chimera-linux/sd-tools       9919e8c2c57b88cf0ddb2182a2b53bce7d0733ac
-agetty         https://github.com/chimera-linux/cports         bb959544416d4b474c32a0ec06a7b3f874c9a016  main/nyagetty/files
-void-runit     https://github.com/void-linux/void-runit        8a77597c556765b499c7b714ed07e7102a818e18
+dinit-chimera       https://github.com/chimera-linux/dinit-chimera           e7e37f55c672d3db513b9a43c5fec4708b0917bf
+sd-tools            https://github.com/chimera-linux/sd-tools                9919e8c2c57b88cf0ddb2182a2b53bce7d0733ac
+agetty              https://github.com/chimera-linux/cports                  bb959544416d4b474c32a0ec06a7b3f874c9a016  main/nyagetty/files
+void-runit          https://github.com/void-linux/void-runit                 8a77597c556765b499c7b714ed07e7102a818e18
+cryptsetup-scripts  https://salsa.debian.org/cryptsetup-team/cryptsetup.git  ce14fccd7f8db22605fb71ca65c079ebb4109b05
 '
 
 clones=$(mktemp -d)

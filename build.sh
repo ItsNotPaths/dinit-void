@@ -30,6 +30,10 @@ install -m 755 vendor/agetty/agetty-default vendor/agetty/agetty-serial vendor/a
 	"$destdir/usr/lib/"
 ln -sf ../agetty "$destdir/usr/lib/dinit.d/boot.d/agetty"
 
+# Debian's crypttab scripts (debian/2%2.8.6-2), with Chimera's Makefile and patches.
+make -C vendor/cryptsetup-scripts DESTDIR="$destdir" VERSION=2.8.6-2 \
+	DOCBOOK_XSL=/usr/share/xsl/docbook/manpages/docbook.xsl install
+
 cp -R void/. "$destdir/"
 install -m 644 vendor/void-runit/rc.conf "$destdir/etc/rc.conf"
 install -m 755 vendor/void-runit/rc.local "$destdir/etc/rc.local"

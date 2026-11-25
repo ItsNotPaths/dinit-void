@@ -9,8 +9,8 @@ are maintaining a proper dinit-void repo, lmk and i can nuke this.
 
 | Folder | What |
 |---|---|
-| `vendor/` | dinit-chimera, [sd-tools](https://github.com/chimera-linux/sd-tools) (`sd-tmpfiles`), Chimera's agetty services from [cports](https://github.com/chimera-linux/cports), and [void-runit](https://github.com/void-linux/void-runit), each at a pinned commit. `download-deps.sh` fills it. |
-| `patches/<name>/` | our changes to a vendored repo, applied in order |
+| `vendor/` | dinit-chimera, [sd-tools](https://github.com/chimera-linux/sd-tools) (`sd-tmpfiles`), Chimera's agetty services from [cports](https://github.com/chimera-linux/cports), Debian's [cryptsetup-scripts](https://salsa.debian.org/cryptsetup-team/cryptsetup) for `/etc/crypttab`, and [void-runit](https://github.com/void-linux/void-runit), each at a pinned commit. `download-deps.sh` fills it. |
+| `patches/<name>/` | changes to a vendored repo, applied in order; `cryptsetup-scripts` takes Chimera's five first |
 | `void/` | the Void side, copied over the install root: dinit-chimera's helpers in `/usr/libexec`, service files in `/usr/lib/dinit.d`, and the `/etc` files runit-void used to own |
 | `tests/` | boot tests in QEMU |
 
@@ -20,14 +20,15 @@ dinit-void does not build dinit.
 ## Status
 
 Musl is the main target, since Chimera is a musl system; glibc is built too.
-It has not booted yet. The gettys, `/etc/crypttab`, the console settings from
-`rc.conf` and the daemon services (dbus, dhcpcd, sshd, wpa_supplicant, acpid)
+It has not booted yet. The console settings from `rc.conf`, `/etc/rc.shutdown`
+and the daemon services (dbus, elogind, dhcpcd, sshd, wpa_supplicant, acpid)
 are not done.
 
 ## Build
 
 On Void, musl or glibc, with these packages: `gcc meson ninja pkg-config
-libkmod-devel libcap-devel acl-devel dinit`.
+libkmod-devel libcap-devel acl-devel make libxslt docbook-xsl dinit`.
+`/etc/crypttab` needs `cryptsetup` at run time.
 
 ```
 ./download-deps.sh
@@ -64,4 +65,6 @@ dinit-void's own files are BSD-2-Clause, the same licence as dinit-chimera
 - dinit-chimera and Chimera's agetty services: q66 and the Chimera Linux
   developers, BSD-2-Clause.
 - sd-tools: forked from systemd, LGPL-2.1.
+- cryptsetup-scripts: the Debian cryptsetup team, with Chimera's patches,
+  GPL-2.0-or-later.
 - void-runit: the Void Linux developers, public domain.
