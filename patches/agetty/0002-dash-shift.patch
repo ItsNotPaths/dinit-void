@@ -1,0 +1,30 @@
+diff -ru a/agetty-default b/agetty-default
+--- a/agetty-default
++++ b/agetty-default
+@@ -20,9 +20,9 @@
+ 
+ # defaults
+ GETTY_BAUD=$1
+-shift
++[ $# -eq 0 ] || shift
+ GETTY_TERM=$1
+-shift
++[ $# -eq 0 ] || shift
+ GETTY_ARGS=$*
+ 
+ # do not clear tty1 by default
+diff -ru a/agetty-serial b/agetty-serial
+--- a/agetty-serial
++++ b/agetty-serial
+@@ -12,9 +12,9 @@
+ GETTY="$1"
+ shift
+ GETTY_BAUD="$1"
+-shift
++[ $# -eq 0 ] || shift
+ GETTY_TERM="$1"
+-shift
++[ $# -eq 0 ] || shift
+ GETTY_8BIT=
+ 
+ detect_speed_proc() {
