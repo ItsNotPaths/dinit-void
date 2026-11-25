@@ -20,9 +20,15 @@ meson_build() {
 meson_build sd-tools -Dtests=false
 meson_build dinit-chimera
 
-# (hole gettys :tags getty :sev blocker) no getty starts: vendor/agetty (Chimera's agetty services) is not installed or adapted to Void yet.
-install_gettys() { :; }
-install_gettys
+# system and boot wait on these; only chimera.conf's tmpfiles make them, at run time.
+install -d "$destdir/usr/lib/dinit.d/boot.d" "$destdir/etc/dinit.d/boot.d"
+
+install -m 644 vendor/agetty/agetty "$destdir/usr/lib/dinit.d/agetty"
+install -m 644 vendor/agetty/agetty-service "$destdir/usr/lib/dinit.d/agetty-service@"
+install -m 755 vendor/agetty/agetty-service.sh "$destdir/usr/lib/agetty-service"
+install -m 755 vendor/agetty/agetty-default vendor/agetty/agetty-serial vendor/agetty/dinit-agetty \
+	"$destdir/usr/lib/"
+ln -sf ../agetty "$destdir/usr/lib/dinit.d/boot.d/agetty"
 
 cp -R void/. "$destdir/"
 install -m 644 vendor/void-runit/rc.conf "$destdir/etc/rc.conf"

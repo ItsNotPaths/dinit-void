@@ -1,0 +1,19 @@
+--- a/agetty-serial
++++ b/agetty-serial
+@@ -57,13 +57,13 @@
+     local ttyn speed cflags g8bit
+     ttyn=$1
+     # ensure it's a terminal
+-    speed=$(/usr/bin/stty -f "/dev/$ttyn" speed 2>/dev/null)
++    speed=$(/usr/bin/stty -F "/dev/$ttyn" speed 2>/dev/null)
+     if [ $? -ne 0 ]; then
+         # not a terminal
+         return 0
+     fi
+-    cflags=$(stty -f "/dev/$ttyn" | grep "^cflags: " 2>/dev/null)
+-    if [ "$cflags" != "${cflags#*cs8 -parenb}" ]; then
++    cflags=$(/usr/bin/stty -F "/dev/$ttyn" -a 2>/dev/null)
++    if [ "$cflags" != "${cflags#*-parenb*cs8}" ]; then
+         # detected 8bit no parity
+         g8bit=-8
+     fi
