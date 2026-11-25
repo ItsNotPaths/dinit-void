@@ -58,6 +58,9 @@ tested procedure.
 
 ## Credits and licences
 
+dinit-void's own files are BSD-2-Clause, the same licence as dinit-chimera
+(`COPYING.md`). Vendored code keeps its own:
+
 - dinit-chimera and Chimera's agetty services: q66 and the Chimera Linux
   developers, BSD-2-Clause.
 - sd-tools: forked from systemd, LGPL-2.1.
