@@ -1,0 +1,2 @@
+# (hole base-services :tags service :sev gap) base-system's daemons and dbus have no dinit services; Void's packages ship only runit ones in /etc/sv.
+type = internal

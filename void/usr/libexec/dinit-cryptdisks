@@ -1,0 +1,5 @@
+#!/bin/sh
+# dinit-chimera's crypttab helper: $1 is "early" or "remaining", $2 is "start" or "stop".
+
+# (hole cryptdisks :tags crypt :sev blocker) /etc/crypttab is not read: no encrypted disk is opened at boot or closed at shutdown, so fstab entries on one fail.
+exit 0

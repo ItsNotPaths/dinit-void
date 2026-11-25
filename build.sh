@@ -1,0 +1,34 @@
+#!/bin/sh
+# Builds sd-tools and dinit-chimera with Void's paths and installs them, with void/ and
+# void-runit's config files, into DESTDIR.
+#     DESTDIR=/path ./build.sh
+set -eu
+cd "$(dirname "$0")"
+destdir=${DESTDIR:?build.sh: set DESTDIR to the root to install into}
+[ -d vendor/dinit-chimera ] || {
+	echo "build.sh: no vendor/. Run ./download-deps.sh." >&2; exit 1; }
+
+# Void merged sbin into bin, so dinit, init and sulogin are in /usr/bin.
+meson_build() {
+	name=$1
+	shift
+	rm -rf "build/$name"
+	meson setup "build/$name" "vendor/$name" --prefix=/usr --sbindir=bin --libexecdir=libexec "$@"
+	meson compile -C "build/$name"
+	DESTDIR=$destdir meson install -q -C "build/$name" --no-rebuild
+}
+meson_build sd-tools -Dtests=false
+meson_build dinit-chimera
+
+# (hole gettys :tags getty :sev blocker) no getty starts: vendor/agetty (Chimera's agetty services) is not installed or adapted to Void yet.
+install_gettys() { :; }
+install_gettys
+
+cp -R void/. "$destdir/"
+install -m 644 vendor/void-runit/rc.conf "$destdir/etc/rc.conf"
+install -m 755 vendor/void-runit/rc.local "$destdir/etc/rc.local"
+
+# runit-void owned these; dinit's own take their place.
+for command in halt poweroff reboot shutdown; do
+	ln -sf "dinit-$command" "$destdir/usr/bin/$command"
+done

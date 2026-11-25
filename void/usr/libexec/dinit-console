@@ -1,0 +1,5 @@
+#!/bin/sh
+# dinit-chimera's console helper: "keyboard" sets the keymap, no argument sets the font.
+
+# (hole console-rc-conf :tags rc-conf :sev gap) rc.conf's KEYMAP, FONT, FONT_MAP and FONT_UNIMAP are not applied; the console keeps the kernel's defaults.
+exit 0

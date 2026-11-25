@@ -1,0 +1,2 @@
+# (hole rc-shutdown :tags rc-conf :sev polish) /etc/rc.shutdown never runs; Chimera's shutdown-hook does not know it.
+type = internal
