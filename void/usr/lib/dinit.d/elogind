@@ -1,2 +1,8 @@
-# (hole base-services :tags service :sev gap) base-system's daemons, dbus and elogind have no dinit services; Void's packages ship only runit ones in /etc/sv.
-type = internal
+# Chimera's shape running Void's wrapper; Void's elogind has no LOGIND_READY_FD
+
+type = process
+command = /usr/libexec/elogind/elogind.wrapper
+depends-on: dbus
+depends-on: local.target
+before: login.target
+smooth-recovery = true

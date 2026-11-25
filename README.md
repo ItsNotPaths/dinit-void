@@ -20,8 +20,7 @@ dinit-void does not build dinit.
 ## Status
 
 Musl is the main target, since Chimera is a musl system; glibc is built too.
-It has not booted yet. The daemon services (dbus, elogind, dhcpcd, sshd,
-wpa_supplicant, acpid) are not done.
+It has not booted yet.
 
 ## Build
 
@@ -52,8 +51,10 @@ tested procedure.
   never edited.
   dinit-void installs its own copies.
 - Void's packages ship runit services in `/etc/sv`, which dinit does not read.
-  Each daemon you want needs a dinit service file, enabled with
-  `dinitctl enable <name>` or a link in `/etc/dinit.d/boot.d/`.
+  dinit-void has service files for dbus and elogind (enabled) and for sshd,
+  dhcpcd, wpa_supplicant and acpid (enable with `dinitctl enable <name>`).
+  The last four run Void's own `/etc/sv/<name>/run`, so `conf` there still
+  sets `OPTS`. Any other daemon needs its own service file.
 - A root filesystem on LUKS is opened by dracut in the initramfs, so that part
   does not depend on the init system.
 

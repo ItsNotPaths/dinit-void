@@ -1,2 +1,8 @@
-# (hole base-services :tags service :sev gap) base-system's daemons, dbus and elogind have no dinit services; Void's packages ship only runit ones in /etc/sv.
-type = internal
+# Chimera's shape running Void's run script, which reads OPTS from conf
+
+type = process
+command = /etc/sv/dhcpcd/run
+working-dir = /etc/sv/dhcpcd
+logfile = /var/log/dhcpcd.log
+before: network.target
+depends-on: pre-network.target

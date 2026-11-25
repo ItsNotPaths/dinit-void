@@ -28,7 +28,6 @@ install -m 644 vendor/agetty/agetty-service "$destdir/usr/lib/dinit.d/agetty-ser
 install -m 755 vendor/agetty/agetty-service.sh "$destdir/usr/lib/agetty-service"
 install -m 755 vendor/agetty/agetty-default vendor/agetty/agetty-serial vendor/agetty/dinit-agetty \
 	"$destdir/usr/lib/"
-ln -sf ../agetty "$destdir/usr/lib/dinit.d/boot.d/agetty"
 
 # Debian's crypttab scripts (debian/2%2.8.6-2), with Chimera's Makefile and patches.
 make -C vendor/cryptsetup-scripts DESTDIR="$destdir" VERSION=2.8.6-2 \
@@ -38,7 +37,11 @@ cp -R void/. "$destdir/"
 install -m 644 vendor/void-runit/rc.conf "$destdir/etc/rc.conf"
 install -m 755 vendor/void-runit/rc.local "$destdir/etc/rc.local"
 install -m 755 vendor/void-runit/rc.shutdown "$destdir/etc/rc.shutdown"
-ln -sf ../rc-shutdown "$destdir/usr/lib/dinit.d/boot.d/rc-shutdown"
+
+# enabled by default; the other daemons are not, as on Void.
+for service in agetty rc-shutdown dbus elogind; do
+	ln -sf "../$service" "$destdir/usr/lib/dinit.d/boot.d/$service"
+done
 
 # runit-void owned these; dinit's own take their place.
 for command in halt poweroff reboot shutdown; do

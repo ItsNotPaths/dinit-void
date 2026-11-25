@@ -1,2 +1,9 @@
-# (hole base-services :tags service :sev gap) base-system's daemons, dbus and elogind have no dinit services; Void's packages ship only runit ones in /etc/sv.
-type = internal
+# Chimera's shape running Void's run script, which reads OPTS from conf
+
+type = process
+command = /etc/sv/acpid/run
+working-dir = /etc/sv/acpid
+logfile = /var/log/acpid.log
+depends-on: pre-local.target
+before: login.target
+smooth-recovery = true
