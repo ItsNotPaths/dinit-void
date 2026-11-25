@@ -1,0 +1,13 @@
+--- a/early/scripts/clock.sh
++++ b/early/scripts/clock.sh
+@@ -6,6 +6,10 @@
+ . @SCRIPT_PATH@/common.sh
+ 
+ [ -r /etc/hwclock ] && read -r HWCLOCK < /etc/hwclock
++# Void keeps the clock mode in rc.conf; read only that line, and /etc/hwclock still wins.
++if [ -z "$HWCLOCK" ] && [ -r /etc/rc.conf ]; then
++    HWCLOCK=$(sed -n "s/^HARDWARECLOCK=//p" /etc/rc.conf | tail -n 1 | cut -d "#" -f 1 | tr -d "\"' " | tr "A-Z" "a-z")
++fi
+ 
+ case "$1" in
+     hwclock|swclock) ;;
