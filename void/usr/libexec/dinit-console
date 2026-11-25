@@ -1,5 +1,27 @@
 #!/bin/sh
 # dinit-chimera's console helper: "keyboard" sets the keymap, no argument sets the font.
+# Applies rc.conf as void-runit's 03-console-setup.sh does, reading only these lines.
 
-# (hole console-rc-conf :tags rc-conf :sev gap) rc.conf's KEYMAP, FONT, FONT_MAP and FONT_UNIMAP are not applied; the console keeps the kernel's defaults.
-exit 0
+[ -r /etc/rc.conf ] || exit 0
+
+rc_conf_value() {
+	sed -n "s/^$1=//p" /etc/rc.conf | tail -n 1 | cut -d "#" -f 1 | tr -d "\"' "
+}
+
+if [ "$1" = keyboard ]; then
+	keymap=$(rc_conf_value KEYMAP)
+	[ -n "$keymap" ] || exit 0
+	exec loadkeys -q -u "$keymap"
+fi
+
+font=$(rc_conf_value FONT)
+[ -n "$font" ] || exit 0
+font_map=$(rc_conf_value FONT_MAP)
+font_unimap=$(rc_conf_value FONT_UNIMAP)
+last_terminal=$(rc_conf_value TTYS)
+
+terminal=0
+while [ "$terminal" -le "${last_terminal:-12}" ]; do
+	setfont ${font_map:+-m "$font_map"} ${font_unimap:+-u "$font_unimap"} "$font" -C "/dev/tty$terminal"
+	terminal=$((terminal + 1))
+done
