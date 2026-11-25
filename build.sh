@@ -24,7 +24,7 @@ meson_build dinit-chimera
 install -d "$destdir/usr/lib/dinit.d/boot.d" "$destdir/etc/dinit.d/boot.d"
 
 install -m 644 vendor/agetty/agetty "$destdir/usr/lib/dinit.d/agetty"
-install -m 644 vendor/agetty/agetty-service "$destdir/usr/lib/dinit.d/agetty-service@"
+install -m 644 vendor/agetty/agetty-service "$destdir/usr/lib/dinit.d/agetty-service"
 install -m 755 vendor/agetty/agetty-service.sh "$destdir/usr/lib/agetty-service"
 install -m 755 vendor/agetty/agetty-default vendor/agetty/agetty-serial vendor/agetty/dinit-agetty \
 	"$destdir/usr/lib/"
